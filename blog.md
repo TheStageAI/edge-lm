@@ -161,7 +161,7 @@ The scheduled requant has the same mean KL as the materialized RCO bank assignme
 
 All compression runs were implemented in `qlip`, thestage's internal neural-network compression framework. `qlip` provides a unified interface
 for model loading, calibration data, module selection, compression passes, artifact materialization, and evaluation, which makes it easy to add
-new compression algorithms without rebuilding the full pipeline around each method.
+new compression algorithms without rebuilding the full pipeline around each method. See the [qlip quantization tutorial](https://docs.thestage.ai/tutorials/source/quantization_tutorial.html) for a walkthrough.
 
 For Gemma 4, this allowed us to compose several primitives in one reproducible flow: GPTQ/QEP for transformer projections, an AQLM-style codec
 for PLE, scalar quantization for token embeddings, and Riemannian Constrained Optimization for non-uniform bit-width and group-size schedules.
