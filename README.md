@@ -88,9 +88,9 @@ Every model — ours and the GGUF baselines alike — is dequantized to a standa
 | Model | Compression | MMLU-Pro | IFEval | Tau2 |
 |---|---|---|---|---|
 | BF16 | 1.00× | 70.49 | 81.33 | 37.19 |
-| **Ours L** | 4.64× | 67.41 | 81.52 | **33.25** |
-| **Ours M** | **5.60×** | 63.54 | **80.78** | 29.04 |
-| Unsloth Q3-K-S | 3.90× | **63.66** | 77.08 | 30.47 |
+| **Ours L** | 4.64× | **67.41** | **81.52** | **33.25** |
+| **Ours M** | **5.60×** | 63.54 | 80.78 | 29.04 |
+| Unsloth Q3-K-S | 3.90× | 63.66 | 77.08 | 30.47 |
 | Unsloth UD-Q2-K-XL | 4.01× | 58.69 | 79.67 | 22.91 |
 
 Bold marks the best result among the compressed checkpoints in each column. Tau2 computed with `Qwen3-235B-A22B-2507` as the user simulator.
