@@ -108,8 +108,8 @@ python benchmarks/evaluate.py --tasks mmlu_pro --apply-chat-template
 Measured on an **Apple M3 Max (69 GB)**, size `m` checkpoint, 1024 input / 1024 output tokens,
 chunked prefill (256-token chunks), best of 5 runs. `TTFT` = prefill + first token;
 `TPS` = steady-state decode throughput; `MLX peak memory` = `mx.get_peak_memory()` (MLX Metal allocator).
-References are the original `google/gemma-4-E2B-it` served via mlx-vlm: bf16, and 4-bit quantized
-(affine, group size 32).
+References are the matching original `google/gemma-4-*-it` checkpoint served via mlx-vlm: bf16,
+and 4-bit quantized (affine, group size 32).
 
 **Gemma 4 E2B**
 
@@ -119,7 +119,13 @@ References are the original `google/gemma-4-E2B-it` served via mlx-vlm: bf16, an
 | Reference bf16 | 531 ms | 57.2 | 10.7 GB |
 | Reference 4-bit (gs32) | 595 ms | 83.3 | 4.6 GB |
 
-Gemma 4 E4B performance numbers *coming soon.*
+**Gemma 4 E4B**
+
+| Model | TTFT | Decode (TPS) | MLX peak memory |
+|---|---|---|---|
+| **TheStage (ours)** | **832 ms** | **73.7** | **3.5 GB** |
+| Reference bf16 | 1110 ms | 30.5 | 16.4 GB |
+| Reference 4-bit (gs32) | 1687 ms | 36.6 | 7.1 GB |
 
 Reproduce:
 
