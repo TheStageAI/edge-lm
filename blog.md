@@ -198,7 +198,7 @@ We evaluate final release checkpoints, not bank anchors or materialized RCO sear
 | --- | --- | --- | --- | --- |
 | BF16 | 1.00× | 61.85 | 74.68 | 30.67 |
 | Ours L | 5.62**×** | **54.48** | **74.86** | 22.20 |
-| Ours M | **6.70×** | 49.85 | 71.53 | **23.45** |
+| Ours M | **6.40×** | 49.85 | 71.53 | **23.45** |
 | Unsloth Q3-K-S | 3.81× | 48.20 | 64.51 | 18.69 |
 | Unsloth UD-Q2-K-XL | 3.87× | 43.17 | 66.54 | 20.23 |
 

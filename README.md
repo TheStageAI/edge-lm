@@ -13,7 +13,7 @@
 
 | Model | M size (default) | L size | Compression |
 |---|---|---|---|
-| [`TheStageAI/gemma-4-E2B-it`](https://huggingface.co/TheStageAI/gemma-4-E2B-it) | **1.44 GB** | 1.72 GB | up to 6.7× |
+| [`TheStageAI/gemma-4-E2B-it`](https://huggingface.co/TheStageAI/gemma-4-E2B-it) | **1.44 GB** | 1.72 GB | up to 6.4× |
 | [`TheStageAI/gemma-4-E4B-it`](https://huggingface.co/TheStageAI/gemma-4-E4B-it) | **2.72 GB** | 3.28 GB | up to 5.6× |
 
 Weights download automatically from HuggingFace on first run. Each model ships two operating points — `l` (more quality, larger artifact) and `m` (the smaller headline compression target, default).
@@ -79,7 +79,7 @@ Every model — ours and the GGUF baselines alike — is dequantized to a standa
 |---|---|---|---|---|
 | BF16 | 1.00× | 61.85 | 74.68 | 30.67 |
 | **Ours L** | 5.62× | **54.48** | **74.86** | 22.20 |
-| **Ours M** | **6.70×** | 49.85 | 71.53 | **23.45** |
+| **Ours M** | **6.40×** | 49.85 | 71.53 | **23.45** |
 | Unsloth Q3-K-S | 3.81× | 48.20 | 64.51 | 18.69 |
 | Unsloth UD-Q2-K-XL | 3.87× | 43.17 | 66.54 | 20.23 |
 
