@@ -125,7 +125,7 @@ and 4-bit quantized (affine, group size 32).
 |---|---|---|---|
 | **TheStage (ours)** | **832 ms** | **73.7** | **3.5 GB** |
 | Reference bf16 | 1110 ms | 30.5 | 16.4 GB |
-| Reference 4-bit (gs32) | 1687 ms | 36.6 | 7.1 GB |
+| Reference 4-bit (gs32) | 970 ms | 53.5 | 7.1 GB |
 
 Reproduce:
 
