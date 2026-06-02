@@ -26,7 +26,9 @@ Our contributions are:
 - **Accuracy preserved where it counts.** They hold their accuracy on the three things that matter most for edge LLMs—instruction following, tool calls, and general world knowledge.
 - **MLX-ready artifacts.** They use an MLX-compatible plain per-group format for the Apple Silicon release path.
 
-Release model cards: [TheStageAI/gemma-4-E2B-it](https://huggingface.co/TheStageAI/gemma-4-E2B-it), [TheStageAI/gemma-4-E4B-it](https://huggingface.co/TheStageAI/gemma-4-E4B-it).
+Run them on Apple Silicon with [`TheStageAI/edge-lm`](https://github.com/TheStageAI/edge-lm).
+
+Huggingface model cards: [TheStageAI/gemma-4-E2B-it](https://huggingface.co/TheStageAI/gemma-4-E2B-it), [TheStageAI/gemma-4-E4B-it](https://huggingface.co/TheStageAI/gemma-4-E4B-it).
 
 # Related Work
 
