@@ -3,9 +3,7 @@
 We present a series of compressed Gemma-4 checkpoints that are roughly 7× smaller than the original while preserving the capabilities that matter most for on-device assistants: general world knowledge, instruction following, and tool use. We achieve this by compressing the model along its natural structure—non-uniform, mixed-precision quantization of the transformer backbone, together with up-to-20× vector quantization of the Per-Layer Embedding (PLE) tables, which hold nearly half of the parameters. The optimized checkpoints are packaged for Apple Silicon Macs and iPhones via MLX, fit within mobile memory budgets, and target practical deployment on phones, laptops, and other edge devices.
 
 
-<img src="https://cdn.thestage.ai/production/cms_file_upload/1780411906-d0180e32-8236-45f7-a0a1-d216a4dcb735/pareto-3.png" alt="Pareto for IFEval" style="display: block; width: 100vw; max-width: 100vw; margin-left: 50%; transform: translateX(-50%); margin-bottom: 16px;">
-
-<img src="https://cdn.thestage.ai/production/cms_file_upload/1780411851-c8e45f93-1e45-471f-85db-87f7a3881f6c/pareto_mmlu-2.png" alt="Pareto for MMLU" style="display: block; width: 100vw; max-width: 100vw; margin-left: 50%; transform: translateX(-50%);">
+<img src="https://cdn.thestage.ai/production/cms_file_upload/1780418516-ae8328f9-4a41-41ad-bc70-aaaf20a65c79/Pareto_size_vs_quality.png" alt="Pareto size vs quality" style="display: block; width: 100vw; max-width: 100vw; margin-left: 50%; transform: translateX(-50%); margin-bottom: 16px;">
 
 
 # Introduction
