@@ -7,7 +7,7 @@
 `edge-lm` runs compressed large language models on-device — Apple Silicon Macs and iPhones — through [MLX](https://github.com/ml-explore/mlx). The first release ships the **smallest publicly available Gemma 4 checkpoints optimized for edge deployment** — roughly **7× smaller** than the original while preserving the capabilities that matter most for on-device assistants: general world knowledge, instruction following, and tool use.
 
 
-> 📝 Read the full write-up: [*7× size reduction for Gemma 4 Edge models — Compressing PLE architectures*](blog.md).
+> 📝 Read the full write-up: [*7× size reduction for Gemma 4 Edge models — Compressing PLE architectures*](https://app.thestage.ai/blog/7x-size-reduction-for-Gemma4-Edge-models?id=14).
 
 ## Models
 
