@@ -22,7 +22,7 @@ We close this gap with a series of Gemma-4 checkpoints built for edge deployment
 
 Our contributions are:
 
-- **~7× smaller.** The checkpoints are roughly 7× smaller than the original Gemma-4. TheStageAI/gemma-4-E2B-it fits to 1.4 gb and TheStageAI/gemma-4-E4B-it fits to 2.6 gb.
+- **~7× smaller.** The checkpoints are roughly 7× smaller than the original Gemma-4. The default `M` release artifacts are 1.44 GB for TheStageAI/gemma-4-E2B-it and 2.72 GB for TheStageAI/gemma-4-E4B-it; the larger `L` operating points are 1.72 GB and 3.28 GB, respectively.
 - **Accuracy preserved where it counts.** They hold their accuracy on the three things that matter most for edge LLMs—instruction following, tool calls, and general world knowledge.
 - **MLX-ready artifacts.** They use an MLX-compatible plain per-group format for the Apple Silicon release path.
 
