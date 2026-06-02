@@ -11,16 +11,16 @@
 
 ## Models
 
-| Model | Size | Compression |
-|---|---|---|
-| [`TheStageAI/gemma-4-E2B-it`](https://huggingface.co/TheStageAI/gemma-4-E2B-it) | **1.4 GB** | up to 6.7× |
-| [`TheStageAI/gemma-4-E4B-it`](https://huggingface.co/TheStageAI/gemma-4-E4B-it) | **2.6 GB** | up to 5.6× |
+| Model | M size (default) | L size | Compression |
+|---|---|---|---|
+| [`TheStageAI/gemma-4-E2B-it`](https://huggingface.co/TheStageAI/gemma-4-E2B-it) | **1.44 GB** | 1.72 GB | up to 6.7× |
+| [`TheStageAI/gemma-4-E4B-it`](https://huggingface.co/TheStageAI/gemma-4-E4B-it) | **2.72 GB** | 3.28 GB | up to 5.6× |
 
 Weights download automatically from HuggingFace on first run. Each model ships two operating points — `l` (more quality, larger artifact) and `m` (the smaller headline compression target, default).
 
 ## Key features
 
-- **~7× smaller checkpoints.** Gemma 4 E2B fits in 1.4 GB and E4B in 2.6 GB — small enough to download quickly and stay within mobile per-app memory budgets.
+- **~7× smaller checkpoints.** The default Gemma 4 E2B checkpoint fits in 1.44 GB, and E4B fits in 2.72 GB — small enough to download quickly and stay within mobile per-app memory budgets.
 - **Accuracy preserved where it counts.** Quality is held on the three things that matter most for edge assistants — instruction following (IFEval), tool calls (τ²-Bench), and general world knowledge (MMLU-Pro).
 - **MLX-ready artifacts.** Decoder weights use a flat, MLX-compatible per-group quantization format; PLE tables use a compact AQLM-style vector-quantization codec (4.7 GB → ~0.26 GB), decompressed on the fly with a single batched gather.
 
