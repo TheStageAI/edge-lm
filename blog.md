@@ -214,7 +214,23 @@ We evaluate final release checkpoints, not bank anchors or materialized RCO sear
 
 ### Performance Benchmarks
 
-Runtime benchmarking is tracked separately from the quality tables above. The release claim in this post is about artifact size and task quality under an MLX-compatible compression format; TTFT, decode throughput, and peak-memory comparisons against Unsloth GGUF/llama.cpp and a uniform MLX W4 baseline should be reported here once the final device measurements are locked.
+Runtime benchmarking is tracked separately from the quality tables above. The release claim in this post is about artifact size and task quality under an MLX-compatible compression format, but the same checkpoints also run fast on-device. The numbers below are measured on an Apple M3 Max (69 GB) using the size `m` checkpoint, 1024 input / 1024 output tokens, chunked prefill (256-token chunks), best of 5 runs. `TTFT` is prefill plus first token, `Decode (TPS)` is steady-state decode throughput, and `MLX peak memory` is `mx.get_peak_memory()` from the MLX Metal allocator. References are the matching original `google/gemma-4-*-it` checkpoint served via mlx-vlm at bf16, and at 4-bit (affine, group size 32).
+
+**Gemma 4 E2B**
+
+| Model | TTFT | Decode (TPS) | MLX peak memory |
+| --- | --- | --- | --- |
+| TheStage (ours) | **434 ms** | **115.0** | **2.1 GB** |
+| Reference bf16 | 531 ms | 57.2 | 10.7 GB |
+| Reference 4-bit (gs32) | 595 ms | 83.3 | 4.6 GB |
+
+**Gemma 4 E4B**
+
+| Model | TTFT | Decode (TPS) | MLX peak memory |
+| --- | --- | --- | --- |
+| TheStage (ours) | **832 ms** | **73.7** | **3.5 GB** |
+| Reference bf16 | 1110 ms | 30.5 | 16.4 GB |
+| Reference 4-bit (gs32) | 970 ms | 53.5 | 7.1 GB |
 
 # References
 
