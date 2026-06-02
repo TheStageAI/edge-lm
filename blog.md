@@ -172,7 +172,7 @@ schedule as a one-off experimental artifact.
 
 ---
 
-![Model artifact size vs KL](https://cdn.thestage.ai/production/cms_file_upload/1780410507-019c0eac-f163-4c06-a48a-95abc3a0da75/gemma4-pareto-plain-kl-size-2026-06-01%20(1).svg)
+![Model artifact size vs KL](https://cdn.thestage.ai/production/cms_file_upload/1780414868-85d998f6-b4d2-41d7-ba43-5182a9c66c62/CheckpointSizevsPlainKL.png)
 
 Figure 1 compares final release artifacts against public GGUF checkpoints. The x-axis is final artifact size, not dense parameter count; the y-axis is held-out teacher KL, so lower is better. Red points are our scheduled-requant release checkpoints, not intermediate RCO bank splices.
 
