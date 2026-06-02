@@ -17,7 +17,7 @@ iOS makes this concrete. The system enforces a per-application memory budget—r
 
 Quantization can address all three constraints at once—smaller files, smaller footprint, and faster inference—but it comes with quality degradation, especially when the model is quantized below 4 bits.
 
-We close this gap with a series of Gemma-4 checkpoints built for edge deployment. We compress the transformer backbone with a combination of state-of-the-art non-uniform post-training quantization techniques, and exploit a structural property of the Per-Layer Embedding (PLE) architecture to compress the embeddings far more aggressively with vector quantization. 
+We close this gap with a series of Gemma-4 checkpoints built for edge deployment. We compress the transformer backbone with a combination of state-of-the-art non-uniform post-training quantization techniques, and exploit a structural property of the Per-Layer Embedding (PLE) architecture to compress the embeddings far more aggressively with vector quantization.
 
 Our contributions are:
 
@@ -25,9 +25,9 @@ Our contributions are:
 - **Accuracy preserved where it counts.** They hold their accuracy on the three things that matter most for edge LLMs—instruction following, tool calls, and general world knowledge.
 - **MLX-ready artifacts.** They use an MLX-compatible plain per-group format for the Apple Silicon release path.
 
-Release model cards: TheStageAI/gemma-4-E2B-it, TheStageAI/gemma-4-E4B-it.
+Release model cards: [TheStageAI/gemma-4-E2B-it](https://huggingface.co/TheStageAI/gemma-4-E2B-it), [TheStageAI/gemma-4-E4B-it](https://huggingface.co/TheStageAI/gemma-4-E4B-it).
 
-# Related works
+# Related Work
 
 ---
 
@@ -40,7 +40,6 @@ Rotation-based methods such as SpinQuant and QuIP-style quantization improve low
 Vector and additive quantization methods, including product quantization and AQLM, can be much stronger than scalar quantization when a tensor is naturally represented through learned codebooks. We use that idea only for PLE, where codebook lookup is a good match for the storage bottleneck. For transformer linear weights, we deliberately avoid vector-quantized kernels and keep ordinary per-group quantization, so inference remains compatible with standard MLX weight-only execution.
 
 Finally, mixed-bit compression needs a rule for where the bits go. A common approach is to rank layers by local sensitivity and assign more precision to the layers that look fragile. GGUF importance matrices (`imatrix`) are a stronger practical version of this idea: calibration data is used to weight quantization error by importance rather than treating all coordinates equally. Riemannian Constrained Optimization (RCO) goes one step further for our setting: it searches over full compression choices under an exact byte budget and optimizes the model-level KL objective directly, rather than relying only on local sensitivity scores.
-
 
 # PLE Transformers Compression
 
@@ -80,7 +79,7 @@ This calibration set is not used as the public benchmark. RCO schedule search us
 
 The quantizer is GPTQ [Frantar et al., 2022], run sequentially down the stack: once a layer is quantized, calibration activations are pushed through it before moving on, so every later layer is calibrated against the drifted activations the deployed model will really produce, not an idealized dense path. We point readers to the paper for the mechanics; what matters here are the two additions that make a flat low-bit format work.
 
-Range clipping (`mseclip`) keeps a few outliers from forcing a whole group to waste its code range on rare values — before quantizing, we search shrink factors and keep the interval that minimizes reconstruction error. 
+Range clipping (`mseclip`) keeps a few outliers from forcing a whole group to waste its code range on rare values — before quantizing, we search shrink factors and keep the interval that minimizes reconstruction error.
 
 Quantization Error Propagation (QEP) handles cross-module drift: since each module receives inputs already shifted by earlier quantization, QEP measures that drift during calibration and pre-shifts the dense weight to match the activations the module will actually see. Both are calibration-time only — no runtime cost, no extra parameters, folded into the weights before the integer codes are emitted. The runtime just loads plain per-group weights.
 
@@ -104,7 +103,7 @@ Gemma 4 E2B/E4B could be described as a 2B/4B model. The dense checkpoints are c
 Conceptually, it is a `token × PLE-layer × channel tensor`: for every vocabulary token, the model stores a separate PLE vector at every depth.
 In BF16, this table alone takes about 4.7 GB; even a direct Q4 representation would still be about 1.17 GB. Our final packed representation brings it down to about 0.26 GB, including both indices and codebooks.
 
-The reason this needed a separate codec is that PLE is not just another smooth embedding table. Empirically, it behaves more like dense layer-specific memory: the same token can carry different information at different depths, and the tensor does not compress well as one clean global object. That pushed us toward a local vector-quantization format instead of a global factorization.
+These numbers refer to the E2B PLE table; E4B scales the same structure to more layers, with larger payloads but the same codec. The reason this needed a separate codec is that PLE is not just another smooth embedding table. Empirically, it behaves more like dense layer-specific memory: the same token can carry different information at different depths, and the tensor does not compress well as one clean global object. That pushed us toward a local vector-quantization format instead of a global factorization.
 
 We treat each `(token, layer)` PLE row as a 256-dimensional vector and split it into small 8-dimensional groups. For every `(layer, group)` pair, we learn a compact 128-entry vector-quantization codebook over these 8D blocks.
 Each PLE row is then reconstructed as a sequence of independent codebook lookups. The codebooks themselves are tiny compared to the assignment payload, so most of the storage is spent on the compact per-row code assignments.
@@ -114,11 +113,11 @@ We therefore estimate a small empirical Fisher-style sensitivity metric from gra
 
 ### PLE storage-quality tradeoff
 
-The goal of the PLE codec is not to beat scalar W3/W4 at equal KL; it is to make the PLE payload small enough to fit the edge budget while keeping the full checkpoint usable. The table below isolates PLE only.
+The goal of the PLE codec is not to beat scalar W3/W4 at equal KL; it is to make the PLE payload small enough to fit the edge budget while keeping the full checkpoint usable. The table below is an E2B PLE-only ablation measured on the distribution-proxy KL setup.
 
-| Method | PLE size | KLD | KL p95 | Top1 |
+| Method | PLE size | KL mean | KL p95 | Top1 |
 | --- | --- | --- | --- | --- |
-| Ours: obj-AQLM/Fisher b32 | 0.26 GB | 0.1231 | 0.5624 | 0.9184 |
+| Ours: sensitivity-weighted VQ codec | 0.26 GB | 0.1231 | 0.5624 | 0.9184 |
 | Direct W2 gs64 | 0.71 GB | 0.0536 | 0.2216 | 0.9462 |
 | Direct W3 gs64 | 1.02 GB | 0.0119 | 0.0496 | 0.9729 |
 | Direct W4 gs64 | 1.33 GB | 0.0032 | 0.0157 | 0.9857 |
@@ -145,15 +144,15 @@ One detail worth stating plainly: RCO searches over a bank of already-quantized 
 
 ### RCO ablation
 
-To show that schedule search matters, we compare a uniform checkpoint, the RCO-selected assignment at the same size target, and the final scheduled requant from the dense model.
+To show that schedule search matters, we compare three E2B variants at the same 1.44 GB release target: a uniform W3/G32 checkpoint, the RCO-selected bank assignment, and the final scheduled requant from the dense model.
 
-|  | KL mean | KL p95 |
+| Variant | KL mean | KL p95 |
 | --- | --- | --- |
-| Base Uniform | 0.4313 | 2.1904 |
-| RCO | 0.3147 | 1.5854 |
-| Requantization | 0.3147 | 1.5427 |
+| Uniform W3/G32 | 0.4313 | 2.1904 |
+| RCO bank assignment | 0.3147 | 1.5854 |
+| Scheduled requant | 0.3147 | 1.5427 |
 
-The scheduled requant keeps the RCO quality gain while avoiding a release artifact assembled as a splice of independently quantized bank checkpoints.
+The scheduled requant has the same mean KL as the materialized RCO bank assignment and slightly better tail KL, while avoiding a release artifact assembled as a splice of independently quantized bank checkpoints.
 
 ## Implementation in qlip
 
@@ -182,7 +181,7 @@ We keep three kinds of data separate: calibration data that builds the compresse
 
 Calibration is not a generic Wikitext setup but an explicit Gemma 4 mix — self-generated model traces, synthetic instruction and domain prompts, and multi-turn conversations, with a thin slice of public data for coverage. The rows are frozen as fixed views, so every GPTQ/QEP and scheduled-requant pass sees the same examples.
 
-The distribution-proxy benchmark asks how far a compressed model drifts from the BF16 teacher rather than chasing a leaderboard. Its prompts are generated — never copied from the public test sets — and balanced across eight categories: instruction following, multiple-choice reasoning, math and science, code, tool use, general assistant queries, multilingual, and long multi-turn. For each prompt the teacher generates a reference path, and we measure the KL between the teacher's and the compressed model's next-token distributions along it, tracking mean and tail KL and top-1 agreement. This same teacher KL is the objective RCO optimizes when it searches the bit schedule: the differentiable pass runs 1000 steps at lr 0.02 on 512 chat-template train views (128 held back for validation) at a 512-token context, annealing its Gumbel sampling temperature from 0.7 down to 0.05. A disjoint set of 512 held-out proxy prompts then checks that the chosen schedule transfers rather than overfitting the train views.
+The distribution-proxy benchmark asks how far a compressed model drifts from the BF16 teacher rather than chasing a leaderboard. Its prompts are generated separately from the public test sets and balanced across instruction following, reasoning, math and science, code, tool use, general assistant queries, multilingual prompts, and long multi-turn traces. We track mean and tail KL plus top-1 agreement on held-out proxy prompts. RCO uses the same kind of teacher-KL signal on a separate train/validation split when searching the bit schedule, then the selected schedule is checked again on the held-out proxy set.
 
 For the public numbers we equalize the backend: every model — ours and the GGUF baselines alike — is dequantized to a standard BF16 checkpoint and served through vLLM, instead of mixing MLX, llama.cpp, custom kernels, and HF in a single table. We report MMLU-Pro for general knowledge, IFEval for instruction following, and Tau2 for multi-step tool use. For Tau2 the Gemma checkpoint under test acts as the agent, while the simulated user is Qwen3-235B-A22B-2507, so the task environment stays fixed and only the agent changes.
 
@@ -190,24 +189,24 @@ For the public numbers we equalize the backend: every model — ours and the GGU
 
 We evaluate final release checkpoints, not bank anchors or materialized RCO search artifacts. Public baselines are Unsloth GGUF checkpoints evaluated through the same BF16/vLLM task-eval path after dequantization. These tables report task quality; the Pareto figure above reports artifact size versus held-out teacher KL.
 
-`Ours L` and `Ours M` are two release operating points: `L` keeps more quality at a larger artifact size, while `M` is the smaller release target used for the headline compression point. Both are final scheduled-requant checkpoints produced from the dense model, not RCO bank materializations.
+`Ours L` and `Ours M` are two release operating points: `L` keeps more quality at a larger artifact size, while `M` is the smaller release target used for the headline compression point. In the final release artifacts, E2B `L/M` are 1.72/1.44 GB and E4B `L/M` are 3.28/2.72 GB, respectively. Both are final scheduled-requant checkpoints produced from the dense model, not RCO bank materializations.
 
 ### E2B
 
-| Model | Compression ratio | MMLU Pro | IFeval | Tau2* (avg over 3) |
+| Model | Compression ratio | MMLU Pro | IFEval | Tau2* (avg over 3) |
 | --- | --- | --- | --- | --- |
 | BF16 | 1.00× | 61.85 | 74.68 | 30.67 |
-| Ours L | 5.62**×** | **54.48** | **74.86** | 22.20 |
+| Ours L | 5.62× | **54.48** | **74.86** | 22.20 |
 | Ours M | **6.70×** | 49.85 | 71.53 | **23.45** |
 | Unsloth Q3-K-S | 3.81× | 48.20 | 64.51 | 18.69 |
 | Unsloth UD-Q2-K-XL | 3.87× | 43.17 | 66.54 | 20.23 |
 
 ### E4B
 
-| Model | Compression ratio | MMLU Pro | IFeval | Tau2* |
+| Model | Compression ratio | MMLU Pro | IFEval | Tau2* |
 | --- | --- | --- | --- | --- |
 | BF16 | 1.00× | 70.49 | 81.33 | 37.19 |
-| Ours L | 4.64**×** | 67.41 | 81.52 | **33.25** |
+| Ours L | 4.64× | 67.41 | 81.52 | **33.25** |
 | Ours M | **5.60×** | 63.54 | **80.78** | 29.04 |
 | Unsloth Q3-K-S | 3.90× | **63.66** | 77.08 | 30.47 |
 | Unsloth UD-Q2-K-XL | 4.01× | 58.69 | 79.67 | 22.91 |
@@ -223,59 +222,87 @@ Runtime benchmarking is tracked separately from the quality tables above. The re
 ### Models and runtime formats
 
 - Google. **Gemma 4 E2B / E4B model cards.**
-    
+
     https://huggingface.co/google/gemma-4-E2B-it
-    
+
     https://huggingface.co/google/gemma-4-E4B-it
-    
+
+- Google AI. **Gemma 3n model overview.**
+
+    https://ai.google.dev/gemma/docs/gemma-3n
+
 - MLX Contributors. **MLX quantization API documentation.**
-    
+
     https://ml-explore.github.io/mlx/build/html/python/_autosummary/mlx.core.quantize.html
-    
+
 - Hugging Face. **GGUF format documentation.**
-    
+
     https://huggingface.co/docs/transformers/main/en/gguf
-    
+
+- ggml-org. **llama.cpp quantization documentation.**
+
+    https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md
+
 - Unsloth. **Gemma 4 GGUF checkpoints used as public baselines.**
-    
+
     https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF
-    
+
     https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF
-    
+
 
 ### Compression methods
 
-- Frantar, E., Ashkboos, S., Hoefler, T., Alistarh, D. **GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers.** ICLR 2023.
-    
+- Frantar et al. **GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers.** ICLR 2023.
+
     https://arxiv.org/abs/2210.17323
-    
-- Arai, Y., Ichikawa, Y. **Quantization Error Propagation: Revisiting Layer-Wise Post-Training Quantization.** arXiv:2504.09629, 2025.
-    
+
+- Arai and Ichikawa. **Quantization Error Propagation: Revisiting Layer-Wise Post-Training Quantization.** arXiv:2504.09629, 2025.
+
     https://arxiv.org/abs/2504.09629
-    
-- Egiazarian, V., Panferov, A., Kuznedelev, D., Frantar, E., Babenko, A., Alistarh, D. **Extreme Compression of Large Language Models via Additive Quantization.** ICML 2024.
-    
+
+- Lin et al. **AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration.** MLSys 2024.
+
+    https://arxiv.org/abs/2306.00978
+
+- Xiao et al. **SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models.** ICML 2023.
+
+    https://arxiv.org/abs/2211.10438
+
+- Liu et al. **SpinQuant: LLM Quantization with Learned Rotations.** ICLR 2025.
+
+    https://arxiv.org/abs/2405.16406
+
+- Chee et al. **QuIP: 2-Bit Quantization of Large Language Models With Guarantees.** arXiv:2307.13304, 2023.
+
+    https://arxiv.org/abs/2307.13304
+
+- Tseng et al. **QuIP#: Even Better LLM Quantization with Hadamard Incoherence and Lattice Codebooks.** ICML 2024.
+
+    https://arxiv.org/abs/2402.04396
+
+- Egiazarian et al. **Extreme Compression of Large Language Models via Additive Quantization.** ICML 2024.
+
     https://arxiv.org/abs/2401.06118
-    
-- Jégou, H., Douze, M., Schmid, C. **Product Quantization for Nearest Neighbor Search.** IEEE TPAMI, 2011.
-    
+
+- Jégou et al. **Product Quantization for Nearest Neighbor Search.** IEEE TPAMI, 2011.
+
     https://doi.org/10.1109/TPAMI.2010.57
-    
-- Helcig, M., Alistarh, D. **Model Compression with Exact Budget Constraints via Riemannian Manifolds.** arXiv:2605.00649, 2026.
-    
+
+- Helcig and Alistarh. **Model Compression with Exact Budget Constraints via Riemannian Manifolds.** arXiv:2605.00649, 2026.
+
     https://arxiv.org/abs/2605.00649
-    
+
 
 ### Evaluation
 
-- Wang, Y. et al. **MMLU-Pro: A More Robust and Challenging Multi-Task Language Understanding Benchmark.** NeurIPS 2024.
-    
+- Wang et al. **MMLU-Pro: A More Robust and Challenging Multi-Task Language Understanding Benchmark.** NeurIPS 2024.
+
     https://arxiv.org/abs/2406.01574
-    
-- Zhou, J. et al. **Instruction-Following Evaluation for Large Language Models.** arXiv:2311.07911, 2023.
-    
+
+- Zhou et al. **Instruction-Following Evaluation for Large Language Models.** arXiv:2311.07911, 2023.
+
     https://arxiv.org/abs/2311.07911
-    
-- Barres, V., Dong, H., Ray, S., Si, X., Narasimhan, K. **τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment.** arXiv:2506.07982, 2025.
-    
+
+- Barres et al. **τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment.** arXiv:2506.07982, 2025.
+
     https://arxiv.org/abs/2506.07982
