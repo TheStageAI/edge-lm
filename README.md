@@ -98,10 +98,16 @@ Bold metric values mark the best result among the compressed checkpoints in each
 Reproduce the quality benchmarks:
 
 ```bash
-pip install "edge-lm[eval]"   # adds lm-evaluation-harness
-python benchmarks/evaluate.py --tasks ifeval --apply-chat-template --max-tokens 2048
-python benchmarks/evaluate.py --tasks mmlu_pro --apply-chat-template
+pip install "edge-lm[quality]"   # CUDA/vLLM quality benchmark dependencies
+
+python benchmarks/quality/verify_release.py \
+    --work-dir runs/release_verify \
+    run \
+    --models e2b_ours_m,e2b_unsloth_q3_k_s \
+    --benchmarks mmlu_pro,ifeval
 ```
+
+The frozen production protocols live in [`benchmarks/quality`](benchmarks/quality/).
 
 ### Performance
 

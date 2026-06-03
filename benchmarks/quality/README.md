@@ -1,9 +1,8 @@
 # Production Quality Benchmarks
 
 These files document the production protocol behind the release quality tables.
-The headline numbers do not come from the local MLX runner in
-`benchmarks/evaluate.py`. For quality comparisons, release checkpoints are
-evaluated through the same vLLM-backed benchmark path.
+The headline numbers do not come from the MLX runtime. For quality comparisons,
+release checkpoints are evaluated through the same vLLM-backed benchmark path.
 
 TheStage MLX release checkpoints are materialized as standard Hugging Face BF16
 checkpoints before vLLM evaluation. Public GGUF baselines are downloaded from

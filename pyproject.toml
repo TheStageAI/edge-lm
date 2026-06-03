@@ -24,8 +24,6 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# Local MLX lm-eval diagnostics (benchmarks/evaluate.py)
-eval = ["lm-eval>=0.4.12"]
 # Production quality benchmarks (benchmarks/quality) require CUDA/vLLM.
 quality = [
     "accelerate",
