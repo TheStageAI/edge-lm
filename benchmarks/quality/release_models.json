@@ -1,0 +1,58 @@
+{
+  "e2b_ours_m": {
+    "label": "Gemma 4 E2B Ours M",
+    "kind": "thestage_mlx",
+    "repo": "TheStageAI/gemma-4-E2B-it",
+    "base_model": "google/gemma-4-E2B-it",
+    "size": "m"
+  },
+  "e2b_ours_l": {
+    "label": "Gemma 4 E2B Ours L",
+    "kind": "thestage_mlx",
+    "repo": "TheStageAI/gemma-4-E2B-it",
+    "base_model": "google/gemma-4-E2B-it",
+    "size": "l"
+  },
+  "e2b_unsloth_q3_k_s": {
+    "label": "Gemma 4 E2B Unsloth Q3-K-S",
+    "kind": "gguf",
+    "repo": "unsloth/gemma-4-E2B-it-GGUF",
+    "base_model": "google/gemma-4-E2B-it",
+    "gguf_file": "gemma-4-E2B-it-Q3_K_S.gguf"
+  },
+  "e2b_unsloth_ud_q2_k_xl": {
+    "label": "Gemma 4 E2B Unsloth UD-Q2-K-XL",
+    "kind": "gguf",
+    "repo": "unsloth/gemma-4-E2B-it-GGUF",
+    "base_model": "google/gemma-4-E2B-it",
+    "gguf_file": "gemma-4-E2B-it-UD-Q2_K_XL.gguf"
+  },
+  "e4b_ours_m": {
+    "label": "Gemma 4 E4B Ours M",
+    "kind": "thestage_mlx",
+    "repo": "TheStageAI/gemma-4-E4B-it",
+    "base_model": "google/gemma-4-E4B-it",
+    "size": "m"
+  },
+  "e4b_ours_l": {
+    "label": "Gemma 4 E4B Ours L",
+    "kind": "thestage_mlx",
+    "repo": "TheStageAI/gemma-4-E4B-it",
+    "base_model": "google/gemma-4-E4B-it",
+    "size": "l"
+  },
+  "e4b_unsloth_q3_k_s": {
+    "label": "Gemma 4 E4B Unsloth Q3-K-S",
+    "kind": "gguf",
+    "repo": "unsloth/gemma-4-E4B-it-GGUF",
+    "base_model": "google/gemma-4-E4B-it",
+    "gguf_file": "gemma-4-E4B-it-Q3_K_S.gguf"
+  },
+  "e4b_unsloth_ud_q2_k_xl": {
+    "label": "Gemma 4 E4B Unsloth UD-Q2-K-XL",
+    "kind": "gguf",
+    "repo": "unsloth/gemma-4-E4B-it-GGUF",
+    "base_model": "google/gemma-4-E4B-it",
+    "gguf_file": "gemma-4-E4B-it-UD-Q2_K_XL.gguf"
+  }
+}

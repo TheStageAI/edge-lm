@@ -1,0 +1,46 @@
+{
+  "name": "gemma4_mmlu_pro_vllm_release",
+  "checkpoint_format": "standard_hf_bf16",
+  "dataset": "TIGER-Lab/MMLU-Pro",
+  "output_contract": {
+    "subject_rows": "runs/mmlu_pro/<run_id>/subjects/<subject>.json",
+    "subject_summary": "runs/mmlu_pro/<run_id>/subjects/<subject>.summary.json",
+    "aggregate": "runs/mmlu_pro/<run_id>/summary.official_random.json"
+  },
+  "mmlu_pro_official": {
+    "backend": "vllm",
+    "subjects": [
+      "biology",
+      "business",
+      "chemistry",
+      "computer science",
+      "economics",
+      "engineering",
+      "health",
+      "history",
+      "law",
+      "math",
+      "philosophy",
+      "physics",
+      "psychology",
+      "other"
+    ],
+    "ntrain": 0,
+    "max_model_len": 12288,
+    "max_new_tokens": 8192,
+    "gpu_memory_utilization": 0.85,
+    "enable_prefix_caching": true,
+    "enforce_eager": true,
+    "prompt_format": "gemma4_chat",
+    "enable_thinking": true,
+    "system_prompt": null,
+    "stop_sequences": [],
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "top_k": 64,
+    "seed": 42,
+    "gpu": "H100",
+    "max_subject_shards": 14,
+    "official_unknown_fallback": true
+  }
+}

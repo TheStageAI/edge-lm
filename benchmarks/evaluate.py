@@ -1,4 +1,8 @@
-"""Evaluate model quality using lm-evaluation-harness.
+"""Local MLX quality diagnostics using lm-evaluation-harness.
+
+This script evaluates the MLX runtime directly and is useful for smoke checks
+and local debugging. Release headline quality numbers use the production
+standard-HF-checkpoint + vLLM protocols under benchmarks/quality instead.
 
 Usage:
     python benchmarks/evaluate.py --tasks ifeval --limit 10

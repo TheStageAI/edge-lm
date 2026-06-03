@@ -1,0 +1,30 @@
+{
+  "name": "gemma4_ifeval_vllm_release",
+  "checkpoint_format": "standard_hf_bf16",
+  "backend": "vllm",
+  "evaluator": "lm-eval",
+  "lm_eval": {
+    "tasks": [
+      "ifeval"
+    ],
+    "batch_size": "auto",
+    "max_batch_size": 16,
+    "add_bos_token": true,
+    "apply_chat_template": true,
+    "fewshot_as_multiturn": true,
+    "enable_thinking": false,
+    "gen_kwargs": {
+      "until": [
+        "<end_of_turn>",
+        "<turn|>",
+        "<eos>"
+      ],
+      "max_gen_toks": 768,
+      "do_sample": false
+    }
+  },
+  "output_contract": {
+    "metrics": "runs/ifeval/<run_id>/metrics.json",
+    "samples": "runs/ifeval/<run_id>/samples/"
+  }
+}

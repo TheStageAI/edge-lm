@@ -1,0 +1,47 @@
+{
+  "name": "gemma4_tau2_vllm_qwen_user_release",
+  "checkpoint_format": "standard_hf_bf16",
+  "benchmark": "tau2",
+  "agent": {
+    "server_backend": "vllm",
+    "max_tokens": 4096,
+    "temperature": 0.0,
+    "enable_thinking": true,
+    "vllm_args": "--dtype bfloat16 --trust-remote-code --max-model-len 16384 --gpu-memory-utilization 0.90 --generation-config vllm",
+    "auto_tool_choice": true,
+    "tool_call_parser": "gemma4",
+    "reasoning_parser": "gemma4",
+    "default_chat_template_kwargs": {
+      "enable_thinking": true
+    }
+  },
+  "user_simulator": {
+    "model": "openrouter/qwen/qwen3-235b-a22b-thinking-2507",
+    "display_name": "Qwen3-235B-A22B-2507",
+    "temperature": 0.0,
+    "preflight_required": true
+  },
+  "tasks": {
+    "domains": [
+      "airline",
+      "retail",
+      "telecom"
+    ],
+    "task_split_name": "base",
+    "num_tasks": null,
+    "num_trials": 1,
+    "max_steps": 200,
+    "simulation_timeout_seconds": 1800,
+    "domain_concurrency": "airline=12,retail=24,telecom=114"
+  },
+  "gemma4_runtime_patches": {
+    "gemma4_vllm_patch": true,
+    "empty_assistant_fallback": "retry",
+    "patch_agent_instruction": true,
+    "mms_policy_hint": true
+  },
+  "output_contract": {
+    "run_dir": "runs/tau2/<run_id>/",
+    "summary_dir": "runs/tau2/summaries/"
+  }
+}

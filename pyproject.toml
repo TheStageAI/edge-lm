@@ -24,8 +24,20 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# Quality benchmarks (benchmarks/evaluate.py)
+# Local MLX lm-eval diagnostics (benchmarks/evaluate.py)
 eval = ["lm-eval>=0.4.12"]
+# Production quality benchmarks (benchmarks/quality) require CUDA/vLLM.
+quality = [
+    "accelerate",
+    "datasets>=4.8.3",
+    "gguf>=0.17.1",
+    "immutabledict",
+    "langdetect",
+    "lm-eval>=0.4.12",
+    "torch",
+    "transformers",
+    "vllm>=0.22.0",
+]
 # Voice input for examples/chat.py --voice
 voice = ["sounddevice>=0.5.0"]
 
