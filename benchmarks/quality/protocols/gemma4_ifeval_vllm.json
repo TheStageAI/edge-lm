@@ -19,7 +19,7 @@
         "<turn|>",
         "<eos>"
       ],
-      "max_gen_toks": 768,
+      "max_gen_toks": 1280,
       "do_sample": false
     }
   },
