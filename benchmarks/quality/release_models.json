@@ -13,6 +13,20 @@
     "base_model": "google/gemma-4-E2B-it",
     "size": "l"
   },
+  "e2b_qat_m": {
+    "label": "Gemma 4 E2B QAT M",
+    "kind": "thestage_mlx",
+    "repo": "TheStageAI/gemma-4-E2B-it-qat",
+    "base_model": "google/gemma-4-E2B-it-qat-q4_0-unquantized",
+    "size": "m"
+  },
+  "e2b_qat_l": {
+    "label": "Gemma 4 E2B QAT L",
+    "kind": "thestage_mlx",
+    "repo": "TheStageAI/gemma-4-E2B-it-qat",
+    "base_model": "google/gemma-4-E2B-it-qat-q4_0-unquantized",
+    "size": "l"
+  },
   "e2b_unsloth_q3_k_s": {
     "label": "Gemma 4 E2B Unsloth Q3-K-S",
     "kind": "gguf",
@@ -39,6 +53,20 @@
     "kind": "thestage_mlx",
     "repo": "TheStageAI/gemma-4-E4B-it",
     "base_model": "google/gemma-4-E4B-it",
+    "size": "l"
+  },
+  "e4b_qat_m": {
+    "label": "Gemma 4 E4B QAT M",
+    "kind": "thestage_mlx",
+    "repo": "TheStageAI/gemma-4-E4B-it-qat",
+    "base_model": "google/gemma-4-E4B-it-qat-q4_0-unquantized",
+    "size": "m"
+  },
+  "e4b_qat_l": {
+    "label": "Gemma 4 E4B QAT L",
+    "kind": "thestage_mlx",
+    "repo": "TheStageAI/gemma-4-E4B-it-qat",
+    "base_model": "google/gemma-4-E4B-it-qat-q4_0-unquantized",
     "size": "l"
   },
   "e4b_unsloth_q3_k_s": {

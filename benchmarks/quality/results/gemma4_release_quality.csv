@@ -1,11 +1,25 @@
-family,model,checkpoint,compression_ratio,mmlu_pro,ifeval,tau2_avg,user_simulator,quality_protocol
-Gemma 4 E2B,BF16,bf16,1.00,61.85,74.68,30.67,Qwen3-235B-A22B-2507,vllm_hf_bf16
-Gemma 4 E2B,Ours L,release_l,5.62,54.48,74.86,22.20,Qwen3-235B-A22B-2507,vllm_hf_bf16
-Gemma 4 E2B,Ours M,release_m,6.70,49.85,71.53,23.45,Qwen3-235B-A22B-2507,vllm_hf_bf16
-Gemma 4 E2B,Unsloth Q3-K-S,unsloth_q3_k_s,3.81,48.20,64.51,18.69,Qwen3-235B-A22B-2507,vllm_hf_bf16
-Gemma 4 E2B,Unsloth UD-Q2-K-XL,unsloth_ud_q2_k_xl,3.87,43.17,66.54,20.23,Qwen3-235B-A22B-2507,vllm_hf_bf16
-Gemma 4 E4B,BF16,bf16,1.00,70.49,81.33,37.19,Qwen3-235B-A22B-2507,vllm_hf_bf16
-Gemma 4 E4B,Ours L,release_l,4.64,67.41,81.52,33.25,Qwen3-235B-A22B-2507,vllm_hf_bf16
-Gemma 4 E4B,Ours M,release_m,5.60,63.54,80.78,29.04,Qwen3-235B-A22B-2507,vllm_hf_bf16
-Gemma 4 E4B,Unsloth Q3-K-S,unsloth_q3_k_s,3.90,63.66,77.08,30.47,Qwen3-235B-A22B-2507,vllm_hf_bf16
-Gemma 4 E4B,Unsloth UD-Q2-K-XL,unsloth_ud_q2_k_xl,4.01,58.69,79.67,22.91,Qwen3-235B-A22B-2507,vllm_hf_bf16
+release,family,model,checkpoint,size_gb,compression_ratio,mmlu_pro,ifeval_prompt_strict,ifeval_inst_strict,tau2_avg,user_simulator,quality_protocol
+original,Gemma 4 E2B,BF16,bf16,10.21,1.00,61.85,75.23,82.37,30.67,Qwen3-235B-A22B-2507,vllm_hf_bf16
+original,Gemma 4 E2B,TheStage L,release_l,1.72,5.62,54.48,76.34,83.45,22.20,Qwen3-235B-A22B-2507,vllm_hf_bf16
+original,Gemma 4 E2B,TheStage M,release_m,1.44,6.40,49.85,75.23,82.61,23.45,Qwen3-235B-A22B-2507,vllm_hf_bf16
+original,Gemma 4 E2B,Unsloth Q3-K-S,unsloth_q3_k_s,2.45,3.81,48.20,66.36,76.02,18.69,Qwen3-235B-A22B-2507,vllm_hf_bf16
+original,Gemma 4 E2B,Unsloth UD-Q2-K-XL,unsloth_ud_q2_k_xl,2.40,3.87,43.17,66.54,76.38,20.23,Qwen3-235B-A22B-2507,vllm_hf_bf16
+original,Gemma 4 E4B,BF16,bf16,15.88,1.00,70.49,85.03,89.57,37.19,Qwen3-235B-A22B-2507,vllm_hf_bf16
+original,Gemma 4 E4B,TheStage L,release_l,3.28,4.64,67.41,84.66,89.33,33.25,Qwen3-235B-A22B-2507,vllm_hf_bf16
+original,Gemma 4 E4B,TheStage M,release_m,2.72,5.60,63.54,81.33,87.05,29.04,Qwen3-235B-A22B-2507,vllm_hf_bf16
+original,Gemma 4 E4B,Unsloth Q3-K-S,unsloth_q3_k_s,3.86,3.90,63.66,81.15,87.17,30.47,Qwen3-235B-A22B-2507,vllm_hf_bf16
+original,Gemma 4 E4B,Unsloth UD-Q2-K-XL,unsloth_ud_q2_k_xl,3.76,4.01,58.69,82.81,88.25,22.91,Qwen3-235B-A22B-2507,vllm_hf_bf16
+qat-source,Gemma 4 E2B,BF16 reference,bf16,10.21,1.00,61.85,75.23,82.37,,,vllm_hf_bf16
+qat-source,Gemma 4 E2B,QAT BF16 dequantized,qat_bf16,10.21,1.00,59.30,72.46,80.70,,,vllm_hf_bf16
+qat-source,Gemma 4 E2B,TheStage native M,qat_native_m,1.44,6.40,47.91,75.42,83.09,,,vllm_hf_bf16
+qat-source,Gemma 4 E2B,TheStage native L,qat_native_l,1.72,5.62,54.45,76.71,83.69,,,vllm_hf_bf16
+qat-source,Gemma 4 E2B,TheStage GGUF M,qat_gguf_m,2.47,4.13,53.79,72.64,81.29,,,vllm_hf_bf16
+qat-source,Gemma 4 E2B,TheStage GGUF L,qat_gguf_l,2.68,3.81,57.12,73.38,81.65,,,vllm_hf_bf16
+qat-source,Gemma 4 E2B,TheStage GGUF W4-uniform,qat_gguf_w4_uniform,2.69,3.80,56.91,74.68,82.61,,,vllm_hf_bf16
+qat-source,Gemma 4 E4B,BF16 reference,bf16,15.88,1.00,70.49,85.03,89.57,,,vllm_hf_bf16
+qat-source,Gemma 4 E4B,QAT BF16 dequantized,qat_bf16,15.88,1.00,69.08,78.56,84.41,,,vllm_hf_bf16
+qat-source,Gemma 4 E4B,TheStage native M,qat_native_m,2.72,5.60,63.67,81.70,87.17,,,vllm_hf_bf16
+qat-source,Gemma 4 E4B,TheStage native L,qat_native_l,3.27,4.64,67.53,85.40,89.69,,,vllm_hf_bf16
+qat-source,Gemma 4 E4B,TheStage GGUF M,qat_gguf_m,4.08,3.89,65.44,81.33,87.29,,,vllm_hf_bf16
+qat-source,Gemma 4 E4B,TheStage GGUF L,qat_gguf_l,4.40,3.61,67.90,82.81,87.89,,,vllm_hf_bf16
+qat-source,Gemma 4 E4B,TheStage GGUF W4-uniform,qat_gguf_w4_uniform,4.40,3.61,68.34,81.33,87.05,,,vllm_hf_bf16
