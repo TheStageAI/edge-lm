@@ -68,8 +68,8 @@ artifacts, evaluated through the same dequantized BF16 path for quality.
 
 | Model | Size | MMLU-Pro | IFEval p/i |
 | --- | ---: | ---: | ---: |
-| BF16 reference | 10.21 GB | 61.85 | 75.23 / 82.37 |
-| QAT BF16 dequantized | 10.21 GB | 59.30 | 72.46 / 80.70 |
+| BF16 reference | 9.26 GB | 61.85 | 75.23 / 82.37 |
+| QAT BF16 dequantized | 9.26 GB | 59.30 | 72.46 / 80.70 |
 | TheStage native M | 1.44 GB | 47.91 | 75.42 / 83.09 |
 | TheStage native L | 1.72 GB | 54.45 | 76.71 / 83.69 |
 | TheStage GGUF M | 2.47 GB | 53.79 | 72.64 / 81.29 |
