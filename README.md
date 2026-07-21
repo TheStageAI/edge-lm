@@ -6,7 +6,7 @@
 
 Each model includes M and L checkpoints. Vision and audio towers are optional.
 
-[Quick start](#quick-start) · [Native checkpoints](#native-checkpoints) · [Benchmarks](#benchmarks) · [Portable GGUF](#portable-gguf-releases)
+[Quick start](#quick-start) · [Native checkpoints](#native-checkpoints) · [Native benchmarks](#native-benchmarks) · [Portable GGUF](#portable-gguf-releases)
 
 </div>
 
@@ -82,31 +82,6 @@ native file format:
 
 </details>
 
-## Portable GGUF releases
-
-<p align="center">
-  <a href="https://huggingface.co/collections/TheStageAI/edge-lm-6a5f36315458277fa7b9e26a">
-    <img
-      src="./assets/thestage-edge-models-header.png"
-      width="100%"
-      alt="TheStageAI Edge Models, portable GGUF checkpoints for Qwen 3.5 and Gemma 4"
-    >
-  </a>
-</p>
-
-We also publish Qwen 3.5 and Gemma 4 as GGUF for llama.cpp-compatible runtimes.
-Each model has four deployment tiers selected for different memory budgets.
-
-| Family | Models | Tiers |
-| --- | --- | --- |
-| Qwen 3.5 | 0.8B · 2B · 4B · 9B | XS · S · M · L |
-| Gemma 4 | E2B · E4B · 12B | XS · S · M · L |
-
-**[Browse TheStageAI Edge Models on Hugging Face →](https://huggingface.co/collections/TheStageAI/edge-lm-6a5f36315458277fa7b9e26a)**
-
-The GGUF files use llama.cpp-compatible runtimes. The native checkpoints in
-this repository use `edge-lm` and MLX.
-
 ## How loading works
 
 A native checkpoint is split into decoder weights, compact PLE files, and the
@@ -131,10 +106,11 @@ The compression write-up explains why Gemma 4's per-layer embeddings need a
 separate representation: [*7× size reduction for Gemma 4 Edge models:
 Compressing PLE architectures*](https://app.thestage.ai/blog/7x-size-reduction-for-Gemma4-Edge-models?id=14).
 
-## Benchmarks
+## Native benchmarks
 
-We measure model quality through a common serving backend. Speed and memory are
-measured in the native MLX runtime.
+The tables in this section cover the native Gemma 4 checkpoints loaded by
+`edge-lm`. Model quality is measured through a common serving backend. Speed
+and memory are measured in the native MLX runtime.
 
 ### Quality preservation
 
@@ -164,6 +140,44 @@ generated tokens, 256-token chunked prefill, and the best of five runs.
 
 Exact protocols, baseline rows, machine-readable results, and reproduction
 commands are in [`benchmarks/`](benchmarks/).
+
+## Portable GGUF releases
+
+<p align="center">
+  <a href="https://huggingface.co/collections/TheStageAI/edge-lm-6a5f36315458277fa7b9e26a">
+    <img
+      src="./assets/thestage-edge-models-header.png"
+      width="100%"
+      alt="TheStageAI Edge Models, portable GGUF checkpoints for Qwen 3.5 and Gemma 4"
+    >
+  </a>
+</p>
+
+The portable release contains seven Qwen3.5 and Gemma 4 models for
+llama.cpp-compatible runtimes. Every model has XS, S, M, and L checkpoints.
+
+| Model | Start with | Size | IFEval I / BF16 (%) | MMLU-Pro (%) |
+| --- | ---: | ---: | ---: | ---: |
+| [Qwen3.5 0.8B](https://huggingface.co/TheStageAI/Qwen3.5-0.8B-GGUF) | **S** | 418 MB | 62.11 / 63.79 | — |
+| [Qwen3.5 2B](https://huggingface.co/TheStageAI/Qwen3.5-2B-GGUF) | **M** | 1.07 GB | 75.54 / 74.70 | — |
+| [Qwen3.5 4B](https://huggingface.co/TheStageAI/Qwen3.5-4B-GGUF) | **M** | 2.39 GB | 86.09 / 87.53 | 78.86 |
+| [Qwen3.5 9B](https://huggingface.co/TheStageAI/Qwen3.5-9B-GGUF) | **M** | 5.06 GB | 88.49 / 88.37 | 82.16 |
+| [Gemma 4 E2B IT](https://huggingface.co/TheStageAI/gemma-4-E2B-it-GGUF) | **S** | 2.40 GB | 83.93 / 83.81 | 60.70 |
+| [Gemma 4 E4B IT](https://huggingface.co/TheStageAI/gemma-4-E4B-it-GGUF) | **S** | 3.76 GB | 89.81 / 89.33 | 69.48 |
+| [Gemma 4 12B IT](https://huggingface.co/TheStageAI/gemma-4-12B-it-GGUF) | **M** | 6.72 GB | 91.61 / 91.85 | 73.34 |
+
+IFEval I is instruction-strict accuracy for the recommended checkpoint and its
+BF16 reference. MMLU-Pro is reported only for complete 12,032-question runs.
+
+Full result tables and exact artifact metadata are grouped by model family:
+
+- [Qwen3.5 GGUF benchmarks](benchmarks/qwen35-GGUF/)
+- [Gemma 4 GGUF benchmarks](benchmarks/gemma4-GGUF/)
+
+**[Browse TheStageAI Edge Models on Hugging Face →](https://huggingface.co/collections/TheStageAI/edge-lm-6a5f36315458277fa7b9e26a)**
+
+These GGUF checkpoints run through llama.cpp-compatible software. The native
+checkpoints above run through `edge-lm` and MLX.
 
 ## Examples
 
@@ -213,8 +227,9 @@ are requested.
 
 ## Citation
 
-If `edge-lm` or the released checkpoints are useful in your work, cite the
-repository:
+If `edge-lm` or its native checkpoints are useful in your work, cite the
+repository. Each portable GGUF repository also includes a release-specific
+citation.
 
 ```bibtex
 @software{thestage_edge_lm_2026,
@@ -230,5 +245,5 @@ repository:
 The runtime is released under the [Apache License 2.0](LICENSE), © 2026
 TheStageAI.
 
-The compressed model weights are derivatives of Gemma 4 and remain subject to
-the [Gemma Terms of Use](https://ai.google.dev/gemma/terms).
+The linked Gemma 4 and Qwen3.5 releases are derived from Apache-2.0 upstream
+checkpoints. Each Hugging Face card records the exact base model and revision.

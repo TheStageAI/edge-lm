@@ -1,10 +1,14 @@
-# Release quality benchmarks
+# Native Gemma 4 quality benchmarks
 
 [← Benchmark index](../)
 
 This directory contains the frozen quality protocols and release tables for
 the native Gemma 4 checkpoints. Quality is evaluated independently from MLX
 runtime speed so every checkpoint can be compared through one serving path.
+
+These tables cover the native `edge-lm` lineage and its QAT-source comparison.
+They are separate from the newer XS/S/M/L portable releases documented under
+[`qwen35-GGUF/`](../qwen35-GGUF/) and [`gemma4-GGUF/`](../gemma4-GGUF/).
 
 Native `edge-lm` checkpoints are materialized as standard Hugging Face BF16
 weights. Public GGUF baselines are dequantized into the same key layout. vLLM
@@ -54,7 +58,7 @@ simulator.
 | Unsloth Q3-K-S | 3.90x | 63.66 | 81.15 / 87.17 | 30.47 |
 | Unsloth UD-Q2-K-XL | 4.01x | 58.69 | 82.81 / 88.25 | 22.91 |
 
-### QAT-source comparison
+### Earlier QAT-source comparison
 
 These rows use Google's QAT-trained BF16 checkpoints as the compression source.
 Native rows are `edge-lm` checkpoints. GGUF rows are portable llama.cpp
