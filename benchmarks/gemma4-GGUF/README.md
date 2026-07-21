@@ -2,6 +2,8 @@
 
 [← Benchmark index](../)
 
+![TheStageAI Edge Models, Gemma 4 GGUF release family](./assets/gemma4-gguf-header.png)
+
 This directory is the public benchmark snapshot for the three Gemma 4 GGUF
 repositories. Each repository contains XS, S, M, and L checkpoints for
 llama.cpp-compatible runtimes.

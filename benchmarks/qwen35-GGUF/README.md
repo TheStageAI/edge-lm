@@ -2,6 +2,8 @@
 
 [← Benchmark index](../)
 
+![TheStageAI Edge Models, Qwen 3.5 GGUF release family](./assets/qwen35-gguf-header.png)
+
 This directory is the public benchmark snapshot for the four Qwen3.5 GGUF
 repositories. Each repository contains XS, S, M, and L checkpoints for
 llama.cpp-compatible runtimes.
