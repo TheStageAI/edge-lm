@@ -1,0 +1,7 @@
+model,variant,kind,artifact_size_gb,ttft_ms,decode_tokens_per_second,mlx_peak_memory_gb,device,unified_memory_gb,input_tokens,output_tokens,prefill_step_size,repetitions,aggregation,reference_group_size,source_commit,recorded_at
+Gemma 4 E2B,M,thestage_native,1.44,434,115.0,2.1,Apple M3 Max,69,1024,1024,256,5,best,,d5de613427af865cfd7fe2a4ca574f3445911734,2026-06-02T18:05:18+01:00
+Gemma 4 E2B,BF16,reference_bf16,10.21,531,57.2,10.7,Apple M3 Max,69,1024,1024,256,5,best,,d5de613427af865cfd7fe2a4ca574f3445911734,2026-06-02T18:05:18+01:00
+Gemma 4 E2B,4-bit,reference_mlx_affine,,595,83.3,4.6,Apple M3 Max,69,1024,1024,256,5,best,32,d5de613427af865cfd7fe2a4ca574f3445911734,2026-06-02T18:05:18+01:00
+Gemma 4 E4B,M,thestage_native,2.72,832,73.7,3.5,Apple M3 Max,69,1024,1024,256,5,best,,d5de613427af865cfd7fe2a4ca574f3445911734,2026-06-02T18:05:18+01:00
+Gemma 4 E4B,BF16,reference_bf16,15.88,1110,30.5,16.4,Apple M3 Max,69,1024,1024,256,5,best,,d5de613427af865cfd7fe2a4ca574f3445911734,2026-06-02T18:05:18+01:00
+Gemma 4 E4B,4-bit,reference_mlx_affine,,970,53.5,7.1,Apple M3 Max,69,1024,1024,256,5,best,32,d5de613427af865cfd7fe2a4ca574f3445911734,2026-06-02T18:05:18+01:00

@@ -5,13 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "edge-lm"
 version = "0.1.0"
-description = "Tiny LLMs on Apple Silicon via MLX"
+description = "Native compressed inference on Apple Silicon with MLX"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
-authors = [{ name = "thestage.ai labs" }]
+license = { text = "Apache-2.0" }
+authors = [{ name = "TheStageAI" }]
 classifiers = [
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
 ]
 keywords = ["mlx", "llm", "apple-silicon", "quantization", "gemma", "on-device"]
 dependencies = [

@@ -1,14 +1,14 @@
-# Production Quality Benchmarks
+# Release quality benchmarks
 
-These files document the production protocol behind the release quality tables.
-The headline numbers do not come from the MLX runtime. For quality comparisons,
-release checkpoints are evaluated through the same vLLM-backed benchmark path.
+[← Benchmark index](../)
 
-TheStage MLX release checkpoints are materialized as standard Hugging Face BF16
-checkpoints before vLLM evaluation. Public GGUF baselines are downloaded from
-Hugging Face, dequantized with the `gguf` reader into the same Hugging Face BF16
-key layout, and then served through vLLM. The MLX scripts remain useful for
-local runtime checks, but they are not the source of the headline quality table.
+This directory contains the frozen quality protocols and release tables for
+the native Gemma 4 checkpoints. Quality is evaluated independently from MLX
+runtime speed so every checkpoint can be compared through one serving path.
+
+Native `edge-lm` checkpoints are materialized as standard Hugging Face BF16
+weights. Public GGUF baselines are dequantized into the same key layout. vLLM
+serves both formats, so the runtime backend stays fixed.
 
 ## Protocols
 
@@ -23,47 +23,47 @@ local runtime checks, but they are not the source of the headline quality table.
 - `release_models.json`: public HF source artifacts for the release comparison
   table, including TheStage MLX checkpoints and Unsloth GGUF baselines.
 
-## Results
+## Release results
 
 `IFEval p/i` means prompt strict / instruction strict. The IFEval numbers below
 use the corrected public recipe with `max_gen_toks=1280`.
 
-### Original Gemma 4 Release
+### Native Gemma 4 release
 
 Every model in this table is materialized to the same standard BF16 evaluation
 path and served through vLLM. Tau2 uses `Qwen3-235B-A22B-2507` as the user
 simulator.
 
-**Gemma 4 E2B**
+#### Gemma 4 E2B native
 
 | Model | Compression | MMLU-Pro | IFEval p/i | Tau2 |
-|---|---:|---:|---:|---:|
+| --- | ---: | ---: | ---: | ---: |
 | BF16 | 1.00x | 61.85 | 75.23 / 82.37 | 30.67 |
 | TheStage L | 5.62x | 54.48 | 76.34 / 83.45 | 22.20 |
 | TheStage M | 6.40x | 49.85 | 75.23 / 82.61 | 23.45 |
 | Unsloth Q3-K-S | 3.81x | 48.20 | 66.36 / 76.02 | 18.69 |
 | Unsloth UD-Q2-K-XL | 3.87x | 43.17 | 66.54 / 76.38 | 20.23 |
 
-**Gemma 4 E4B**
+#### Gemma 4 E4B native
 
 | Model | Compression | MMLU-Pro | IFEval p/i | Tau2 |
-|---|---:|---:|---:|---:|
+| --- | ---: | ---: | ---: | ---: |
 | BF16 | 1.00x | 70.49 | 85.03 / 89.57 | 37.19 |
 | TheStage L | 4.64x | 67.41 | 84.66 / 89.33 | 33.25 |
 | TheStage M | 5.60x | 63.54 | 81.33 / 87.05 | 29.04 |
 | Unsloth Q3-K-S | 3.90x | 63.66 | 81.15 / 87.17 | 30.47 |
 | Unsloth UD-Q2-K-XL | 4.01x | 58.69 | 82.81 / 88.25 | 22.91 |
 
-### QAT-Source Release
+### QAT-source comparison
 
 These rows use Google's QAT-trained BF16 checkpoints as the compression source.
 Native rows are `edge-lm` checkpoints. GGUF rows are portable llama.cpp
 artifacts, evaluated through the same dequantized BF16 path for quality.
 
-**Gemma 4 E2B**
+#### Gemma 4 E2B QAT source
 
 | Model | Size | MMLU-Pro | IFEval p/i |
-|---|---:|---:|---:|
+| --- | ---: | ---: | ---: |
 | BF16 reference | 10.21 GB | 61.85 | 75.23 / 82.37 |
 | QAT BF16 dequantized | 10.21 GB | 59.30 | 72.46 / 80.70 |
 | TheStage native M | 1.44 GB | 47.91 | 75.42 / 83.09 |
@@ -72,10 +72,10 @@ artifacts, evaluated through the same dequantized BF16 path for quality.
 | TheStage GGUF L | 2.68 GB | 57.12 | 73.38 / 81.65 |
 | TheStage GGUF W4-uniform | 2.69 GB | 56.91 | 74.68 / 82.61 |
 
-**Gemma 4 E4B**
+#### Gemma 4 E4B QAT source
 
 | Model | Size | MMLU-Pro | IFEval p/i |
-|---|---:|---:|---:|
+| --- | ---: | ---: | ---: |
 | BF16 reference | 15.88 GB | 70.49 | 85.03 / 89.57 |
 | QAT BF16 dequantized | 15.88 GB | 69.08 | 78.56 / 84.41 |
 | TheStage native M | 2.72 GB | 63.67 | 81.70 / 87.17 |
@@ -87,7 +87,7 @@ artifacts, evaluated through the same dequantized BF16 path for quality.
 The machine-readable copy of the headline table is
 [`results/gemma4_release_quality.csv`](results/gemma4_release_quality.csv).
 
-## End-to-End Verification
+## End-to-end verification
 
 Use `verify_release.py` to download public HF artifacts, materialize them into
 the format expected by the vLLM backend, and run the production eval path.
